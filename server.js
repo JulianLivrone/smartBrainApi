@@ -19,9 +19,9 @@ const db = knex({ //we connect with the database using knex
 });
 
 const app = express();
-
-app.use(express.json()); //we have to parse the information we are getting
 app.use(cors()); //so that google chrome doesn't bother us with security issues
+app.use(express.json()); //we have to parse the information we are getting
+
 
 app.get('/', (req, res) => res.send('it is working'))
 app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt)});
