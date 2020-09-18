@@ -8,13 +8,25 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+//for deployment to Heroku
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; //for deployment purpose
 
+// const db = knex({ //we connect with the database using knex
+//     client: 'pg', //because we use postgreSQL
+//     connection: {
+//       connectionString: process.env.DATABASE_URL,
+//       ssl: true
+//     }
+// });
+
+//for local development
 const db = knex({ //we connect with the database using knex
     client: 'pg', //because we use postgreSQL
     connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: true
+      host: '127.0.0.1',
+      user: 'postgres',
+      password: 'test',
+      database: 'smart-brain'
     }
 });
 
@@ -30,9 +42,14 @@ app.get('/profile/:id', (req, res) => {profile.handleProfileGet(req, res, db)});
 app.put('/image', (req, res) => {image.handleImage(req, res, db)});
 app.post('/imageurl', (req, res) => {image.handleApiCall(req, res)});
 
+//for deployment to Heroku
+// app.listen(process.env.PORT || 3000, () => {
+//     console.log(`app is running on port ${process.env.PORT}`);
+// });
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`app is running on port ${process.env.PORT}`);
+//for local development
+app.listen(3000, () => {
+    console.log('app is running on port 3000');
 });
 
 /*
